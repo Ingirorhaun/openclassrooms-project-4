@@ -9,15 +9,20 @@ function editNav() {
 
 // DOM Elements
 const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
+const modalShowBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+const modalHideBtn = document.getElementsByClassName("close")[0];
 
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+// launch modal events
+modalShowBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+modalHideBtn?.addEventListener("click", hideModal);
 
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
 }
 
-
+//hides the modal
+function hideModal() {
+  modalbg.style.display = "none";
+}

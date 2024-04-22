@@ -13,12 +13,14 @@ const modalShowBtn = document.querySelectorAll(".modal-btn");
 const form = document.getElementsByTagName("form")[0];
 const formData = document.querySelectorAll(".formData");
 const modalHideBtn = document.getElementsByClassName("close")[0];
+const successScreenHideBtn = document.querySelector("#success-screen .btn-close");
 
 // Register event listeners
 //
 // show/hide modal
 modalShowBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 modalHideBtn?.addEventListener("click", hideModal);
+successScreenHideBtn?.addEventListener("click", hideModal);
 // form submit event
 form.addEventListener("submit", validate);
 
@@ -30,6 +32,7 @@ function launchModal() {
 // hide the modal
 function hideModal() {
   modalbg.style.display = "none";
+  hideSuccessScreen();
 }
 
 
@@ -73,7 +76,6 @@ function validate(e) {
 
   // birthday validation
   let birthday = formData[3].getElementsByTagName("input")[0].value;
-  console.log(birthday);
   if (birthday === "") {
     showValidationError(formData[3], "Veuillez sélectionner une date");
   } else {
@@ -111,7 +113,7 @@ function validate(e) {
   // submit the form if there are no validation errors
   let visibleErrors = document.querySelectorAll("[data-error-visible=true]");
   if (visibleErrors.length === 0) {
-    form.submit();
+    submitForm(form);
   }
 }
 
@@ -132,4 +134,41 @@ function showValidationError(element, errorMessage) {
 // hide validation error
 function hideValidationError(element) {
   element.setAttribute("data-error-visible", false);
+}
+
+// submit the form
+async function submitForm(form) {
+  const data = new FormData(form);
+  const url = ""; // to be updated
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: data
+    });
+
+    // The following code should be re-enabled once we have a proper endpoint to receive the POST request
+
+    // if (!response.ok) {
+    //   throw new Error("Fetch error");
+    // } else {
+    showSuccessScreen();
+    // }
+
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+
+// show success screen
+function showSuccessScreen() {
+  form.style.display = "none";
+  document.getElementById("success-screen").style.display = "flex";
+}
+
+//hide success screen
+function hideSuccessScreen() {
+  form.style.display = "block";
+  document.getElementById("success-screen").style.display = "none";
 }

@@ -39,7 +39,6 @@ function validate(e) {
 
   //first name validation
   let firstName = formData[0].getElementsByTagName("input")[0].value;
-  console.log(firstName);
   if (firstName === "") {
     showValidationError(formData[0], "Le prénom est requis");
   } else if (firstName.length < 2) {
@@ -70,6 +69,16 @@ function validate(e) {
   } else {
     //email is valid
     hideValidationError(formData[2]);
+  }
+
+  // birthday validation
+  let birthday = formData[3].getElementsByTagName("input")[0].value;
+  console.log(birthday);
+  if (birthday === "") {
+    showValidationError(formData[3], "Veuillez sélectionner une date");
+  } else {
+    // a date is selected
+    hideValidationError(formData[3]);
   }
 
   // nb of tournaments validation

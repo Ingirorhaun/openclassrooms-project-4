@@ -134,6 +134,7 @@ function showValidationError(element, errorMessage) {
 // hide validation error
 function hideValidationError(element) {
   element.setAttribute("data-error-visible", false);
+  element.setAttribute("data-error", "");
 }
 
 // submit the form

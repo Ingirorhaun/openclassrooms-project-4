@@ -40,75 +40,13 @@ function hideModal() {
 function validate(e) {
   e.preventDefault();
 
-  //first name validation
-  let firstName = formData[0].getElementsByTagName("input")[0].value;
-  if (firstName === "") {
-    showValidationError(formData[0], "Le prénom est requis");
-  } else if (firstName.length < 2) {
-    showValidationError(formData[0], "Le prénom doit comporter au moins 2 caractères");
-  } else {
-    //first name is valid
-    hideValidationError(formData[0]);
-  }
-
-
-  //last name validation
-  let lastName = formData[1].getElementsByTagName("input")[0].value;
-  if (lastName === "") {
-    showValidationError(formData[1], "Le nom est requis");
-  } else if (lastName.length < 2) {
-    showValidationError(formData[1], "Le nom doit comporter au moins 2 caractères");
-  } else {
-    //last name is valid
-    hideValidationError(formData[1]);
-  }
-
-  //email validation
-  let email = formData[2].getElementsByTagName("input")[0].value;
-  if (email === "") {
-    showValidationError(formData[2], "Une adresse email est requise");
-  } else if (!validateEmailAddress(email)) {
-    showValidationError(formData[2], "Cette adresse e-mail n'est pas valide");
-  } else {
-    //email is valid
-    hideValidationError(formData[2]);
-  }
-
-  // birthday validation
-  let birthday = formData[3].getElementsByTagName("input")[0].value;
-  if (birthday === "") {
-    showValidationError(formData[3], "Veuillez sélectionner une date");
-  } else {
-    // a date is selected
-    hideValidationError(formData[3]);
-  }
-
-  // nb of tournaments validation
-  let nbOfTournaments = formData[4].getElementsByTagName("input")[0].value;
-  if (nbOfTournaments === "") {
-    showValidationError(formData[4], "Veuillez sélectionner un numéro");
-  } else {
-    //nb of tournaments is valid
-    hideValidationError(formData[4]);
-  }
-
-  // tournament choice validation
-  let tournamentChoice = formData[5].querySelector("input[type=radio]:checked");
-  if (!tournamentChoice) {
-    showValidationError(formData[5], "Veuillez sélectionner un tournoi");
-  } else {
-    //tournament choice is valid
-    hideValidationError(formData[5]);
-  }
-
-  // conditions of use validation
-  let conditionsOfUseCheckbox = document.getElementById("checkbox1");
-  if (!conditionsOfUseCheckbox.checked) {
-    showValidationError(formData[6], "Veuillez lire et accepter les conditions d'utilisation");
-  } else {
-    //conditions of use are valid
-    hideValidationError(formData[6]);
-  }
+  validateFirstName()
+  validateLastName()
+  validateEmailAddress()
+  validateBirthday()
+  validateNbOfTournaments()
+  validateTournamentChoice()
+  validateConditionsOfUse()
 
   // submit the form if there are no validation errors
   let visibleErrors = document.querySelectorAll("[data-error-visible=true]");
@@ -154,6 +92,7 @@ async function submitForm(form) {
     //   throw new Error("Fetch error");
     // } else {
     showSuccessScreen();
+    resetFormData(form);
     // }
 
   } catch (error) {
@@ -170,6 +109,113 @@ function showSuccessScreen() {
 
 //hide success screen
 function hideSuccessScreen() {
-  form.style.display = "block";
+  form.style.display = "flex";
   document.getElementById("success-screen").style.display = "none";
+}
+
+//rest form data
+function resetFormData(form) {
+
+  //text fields
+  const textInputFields = form.querySelectorAll('input:not([type=submit],[type=radio],[type=checkbox]');
+  textInputFields.forEach(field => field.value = "");
+
+  //radio
+  form.querySelector('input[type=radio]:checked').checked = false;
+}
+
+
+/*Validation functions*/
+
+//first name
+function validateFirstName() {
+  const nameField = formData[0];
+  let firstName = nameField.getElementsByTagName("input")[0].value;
+  if (firstName === "") {
+    showValidationError(nameField, "Le prénom est requis");
+  } else if (firstName.length < 2) {
+    showValidationError(nameField, "Le prénom doit comporter au moins 2 caractères");
+  } else {
+    //first name is valid
+    hideValidationError(nameField);
+  }
+}
+
+//last name
+function validateLastName() {
+  const lastNameField = formData[1];
+  let lastName = lastNameField.getElementsByTagName("input")[0].value;
+  if (lastName === "") {
+    showValidationError(lastNameField, "Le nom est requis");
+  } else if (lastName.length < 2) {
+    showValidationError(lastNameField, "Le nom doit comporter au moins 2 caractères");
+  } else {
+    //last name is valid
+    hideValidationError(lastNameField);
+  }
+}
+
+//email
+function validateEmailAddress() {
+  const emailAddressField = formData[2];
+  let email = emailAddressField.getElementsByTagName("input")[0].value;
+  if (email === "") {
+    showValidationError(emailAddressField, "Une adresse email est requise");
+  } else if (!validateEmailAddress(email)) {
+    showValidationError(emailAddressField, "Cette adresse e-mail n'est pas valide");
+  } else {
+    //email is valid
+    hideValidationError(emailAddressField);
+  }
+}
+
+// birthday
+function validateBirthday() {
+  const birthdayField = formData[3];
+  const latestAcceptableDate = Date.now(); //to be updated once we know the minimum age required to participate
+  let birthday = birthdayField.getElementsByTagName("input")[0].value;
+  if (birthday === "") {
+    showValidationError(birthdayField, "Veuillez sélectionner une date");
+  } else if (Date.parse(birthday) >= latestAcceptableDate) {
+    showValidationError(birthdayField, "Veuillez sélectionner une date dans le passé")
+  } else {
+    // a valid date is selected
+    hideValidationError(birthdayField);
+  }
+}
+
+// nb of tournaments
+function validateNbOfTournaments() {
+  const nbOfTournamentsField = formData[4];
+  let nbOfTournaments = nbOfTournamentsField.getElementsByTagName("input")[0].value;
+  if (nbOfTournaments === "") {
+    showValidationError(nbOfTournamentsField, "Veuillez sélectionner un numéro");
+  } else {
+    //nb of tournaments is valid
+    hideValidationError(nbOfTournamentsField);
+  }
+}
+
+// tournament choice
+function validateTournamentChoice() {
+  const tournamentChoiceField = formData[5];
+  let tournamentChoice = tournamentChoiceField.querySelector("input[type=radio]:checked");
+  if (!tournamentChoice) {
+    showValidationError(tournamentChoiceField, "Veuillez sélectionner un tournoi");
+  } else {
+    //tournament choice is valid
+    hideValidationError(tournamentChoiceField);
+  }
+}
+
+//conditions of use
+function validateConditionsOfUse() {
+  const conditionsOfUseField = formData[6];
+  let conditionsOfUseCheckbox = document.getElementById("checkbox1");
+  if (!conditionsOfUseCheckbox.checked) {
+    showValidationError(conditionsOfUseField, "Veuillez lire et accepter les conditions d'utilisation");
+  } else {
+    //conditions of use are valid
+    hideValidationError(conditionsOfUseField);
+  }
 }

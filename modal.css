@@ -205,7 +205,7 @@ input {
   display: none;
   flex-direction: column;
   height: 100%;
-  padding: 30px 0;
+  min-height: 657px;
   background-color: #232323;
 }
 
@@ -618,6 +618,17 @@ footer {
   .bground .content {
     margin-top: 85px;
     height: auto;
+  }
+  #success-screen h2 {
+    padding: 0;
+  }
+
+  .modal-body {
+    padding-bottom: 25px;
+  }
+
+  .topnav {
+    z-index: 2;
   }
 }
 

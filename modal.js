@@ -57,7 +57,7 @@ function validate(e) {
 
 
 // email validation regex
-function validateEmailAddress(email) {
+function validateEmailAddressRegex(email) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
@@ -79,7 +79,6 @@ function hideValidationError(element) {
 async function submitForm(form) {
   const data = new FormData(form);
   const url = ""; // to be updated
-
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -161,7 +160,7 @@ function validateEmailAddress() {
   let email = emailAddressField.getElementsByTagName("input")[0].value;
   if (email === "") {
     showValidationError(emailAddressField, "Une adresse email est requise");
-  } else if (!validateEmailAddress(email)) {
+  } else if (!validateEmailAddressRegex(email)) {
     showValidationError(emailAddressField, "Cette adresse e-mail n'est pas valide");
   } else {
     //email is valid

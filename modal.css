@@ -541,6 +541,7 @@ footer {
   .topnav.responsive .main-navbar {
     position: absolute;
     right: 0;
+    z-index: 2;
     background-color: white;
   }
 

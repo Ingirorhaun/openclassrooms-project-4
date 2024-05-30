@@ -626,10 +626,6 @@ footer {
   .modal-body {
     padding-bottom: 25px;
   }
-
-  .topnav {
-    z-index: 2;
-  }
 }
 
 @keyframes modalopen {

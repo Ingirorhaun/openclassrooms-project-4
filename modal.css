@@ -541,7 +541,6 @@ footer {
   .topnav.responsive .main-navbar {
     position: absolute;
     right: 0;
-    z-index: 2;
     background-color: white;
   }
 
@@ -625,10 +624,6 @@ footer {
 
   .modal-body {
     padding-bottom: 25px;
-  }
-
-  .topnav {
-    z-index: 2;
   }
 }
 
